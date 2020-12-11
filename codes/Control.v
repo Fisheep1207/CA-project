@@ -1,6 +1,8 @@
 `define I_TYPE 7'b0010011
 `define R_TYPE 7'b0110011
-
+`define LOAD 7'b0000011
+`define STORE 7'b0010011
+`define BRANCH 7'b1100011
 module Control(
     Op_i,       //   (Ins[6:0]),
     ALUOp_o,    //   (ALUOp[1:0]),
@@ -10,25 +12,53 @@ module Control(
     MemRead_o,
     MemWrite_o
 );
-input   [6:0]   Op_i;
-output  [1:0]   ALUOp_o;
-output          ALUSrc_o;
-output          RegWrite_o, MemRead_o, MemWrite_o, MemToReg_o;
-reg [1:0] a;
-reg b, c;
+input      [6:0]   Op_i;
+output  reg[1:0]   ALUOp_o;
+output  reg        ALUSrc_o;
+output  reg        RegWrite_o; 
+output  reg        MemRead_o;
+output  reg        MemWrite_o;
+output  reg        MemToReg_o;
 always@(Op_i) begin
-    if (Op_i == `I_TYPE) begin
-        a = 2'b01;
-        b = 1;
-        c = 1;
-    end 
-    else if (Op_i == `R_TYPE) begin
-        a = 2'b00; 
-        b = 0;
-        c = 1;
+    if (Op_i == `R_TYPE) begin
+        ALUOp_o     =   2'b00;  //  R type
+        ALUSrc_o    =   0;
+        RegWrite_o  =   1;      //  Write Register
+        MemRead_o   =   0;
+        MemWrite_o  =   0;
+        MemToReg_o  =   0;
     end
+    else if (Op_i == `I_TYPE) begin
+        ALUOp_o     =   2'b01;  //  I type
+        ALUSrc_o    =   1;      //  Mux Choose Immediate
+        RegWrite_o  =   1;      //  Write Register
+        MemRead_o   =   0;
+        MemWrite_o  =   0;
+        MemToReg_o  =   0;
+    end 
+    else if (Op_i == `LOAD) begin
+        ALUOp_o     =   2'b01;  //  I type
+        ALUSrc_o    =   1;      //  Mux Choose Immediate
+        RegWrite_o  =   1;      //  Write Register
+        MemRead_o   =   1;      //  Read Memory
+        MemWrite_o  =   0;      
+        MemToReg_o  =   1;      //  Read From Memory
+    end
+    else if (Op_i == `STORE) begin
+        ALUOp_o     =   2'b10;  //  S-type (Store)
+        ALUSrc_o    =   1;      //  Mux Choose Immediate
+        RegWrite_o  =   0;      //  Write Register
+        MemRead_o   =   0;
+        MemWrite_o  =   1;      //  Write to Memory
+        MemToReg_o  =   0;
+    end
+    // else if (Op_i == `BRANCH) begin
+    //     ALUOp_o     =   2'b11;  //  SB-type (Beq)
+    //     ALUSrc_o    =   0;      //  Mux Choose Register
+    //     RegWrite_o  =   0;
+    //     MemRead_o   =   0;
+    //     MemWrite_o  =   0;
+    //     MemToReg_o  =   0;
+    // end
 end
-assign ALUOp_o     =   a;
-assign ALUSrc_o    =   b;
-assign RegWrite_o  =   c;
 endmodule 
