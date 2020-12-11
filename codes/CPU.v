@@ -99,7 +99,7 @@ ALU_Control ALU_Control(
     .ALUCtrl_o  ()
 );
 
-IF_ID IF_IF(
+IF_ID IF_ID(
     .IF_ID_i(Instruction_Memory.instr_o),
     .IF_ID_o()
 );
@@ -107,8 +107,8 @@ IF_ID IF_IF(
 ID_EX ID_EX(
     .RegWrite_o(),
     .RegWrite_i(Control.RegWrite_o),
-    .MemtoReg_o(),
-    .MemtoReg_i(Control.MemtoReg_o),
+    .MemToReg_o(),
+    .MemToReg_i(Control.MemToReg_o),
     .MemRead_o(),
     .MemRead_i(Control.MemRead_o),
     .MemWrite_o(),
@@ -118,9 +118,9 @@ ID_EX ID_EX(
     .ALUSrc_o(),
     .ALUSrc_i(Control.ALUSrc_o),
     .Readdata1_o(),
-    .Readdata1_i(Registers.RD1data_o_o),
+    .Readdata1_i(Registers.RD1data_o),
     .Readdata2_o(),
-    .Readdata2_i(Registers.RD2data_o_o),
+    .Readdata2_i(Registers.RD2data_o),
     .Imm_o(),
     .Imm_i(Sign_Extend.data_o),
     .ALU_o(),
@@ -132,8 +132,8 @@ ID_EX ID_EX(
 EX_MEM EX_MEM(
     .RegWrite_o(),
     .RegWrite_i(ID_EX.RegWrite_o),
-    .MemtoReg_o(),
-    .MemtoReg_i(ID_EX.MemToReg_o),
+    .MemToReg_o(),
+    .MemToReg_i(ID_EX.MemToReg_o),
     .MemRead_o(),
     .MemRead_i(ID_EX.MemRead_o),
     .MemWrite_o(),
@@ -149,8 +149,8 @@ EX_MEM EX_MEM(
 MEM_WB MEM_WB(
     .RegWrite_o(),
     .RegWrite_i(EX_MEM.RegWrite_o),
-    .MemtoReg_o(),
-    .MemtoReg_i(EX_MEM.MemtoReg_o),
+    .MemToReg_o(),
+    .MemToReg_i(EX_MEM.MemToReg_o),
     .ALUresult_o(),
     .ALUresult_i(EX_MEM.ALUresult_o),
     .Readdata_o(),
