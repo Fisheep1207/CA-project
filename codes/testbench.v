@@ -43,8 +43,46 @@ initial begin
     // [RegisterInitialization] DO NOT REMOVE THIS FLAG !!!
 
     // TODO: initialize your pipeline registers
-
+    // initialize register in control unit
+    CPU.Control.MemToReg_o = 1'd0;
+    CPU.Control.RegWrite_o = 1'd0;
+    CPU.Control.MemRead_o = 1'd0;
+    CPU.Control.MemWrite_o = 1'd0;
+    CPU.Control.ALUSrc_o = 1'd0;
+    CPU.Control.ALUOp_o = 2'd0;
     
+    // IF_ID init
+    CPU.IF_ID.IF_ID_o = 32'd0;
+
+    // ID_EX init
+    CPU.ID_EX.RegWrite_o = 1'd0;
+    CPU.ID_EX.MemToReg_o = 1'd0;
+    CPU.ID_EX.MemRead_o = 1'd0;
+    CPU.ID_EX.ALUOp_o = 2'd0;
+    CPU.ID_EX.MemWrite_o = 1'd0;
+    CPU.ID_EX.ALUSrc_o = 1'd0;
+    CPU.ID_EX.Readdata1_o = 32'd0;
+    CPU.ID_EX.Readdata2_o = 32'd0;
+    CPU.ID_EX.Imm_o = 32'd0;
+    CPU.ID_EX.ALU_o = 10'd0;
+    CPU.ID_EX.INS_11_7_o = 5'd0;
+    
+    // EX_MEM init
+    CPU.EX_MEM.RegWrite_o = 1'd0;
+    CPU.EX_MEM.MemToReg_o = 1'd0;
+    CPU.EX_MEM.MemRead_o = 1'd0;
+    CPU.EX_MEM.MemWrite_o = 1'd0;
+    CPU.EX_MEM.ALUresult_o = 32'd0;
+    CPU.EX_MEM.Readdata2_o = 32'd0;
+    CPU.EX_MEM.INS_11_7_o = 5'd0;
+
+    // MEM_WB init
+    CPU.MEM_WB.RegWrite_o = 1'd0;
+    CPU.MEM_WB.MemToReg_o = 1'd0;
+    CPU.MEM_WB.ALUresult_o = 32'd0;
+    CPU.MEM_WB.Readdata_o = 32'd0;
+    CPU.MEM_WB.INS_11_7_o = 5'd0;
+
     // Load instructions into instruction memory
     // Make sure you change back to "instruction.txt" before submission
     $readmemb("testdata_2020/instruction_1.txt", CPU.Instruction_Memory.memory);
@@ -69,8 +107,8 @@ always@(posedge Clk) begin
         $finish;
 
     // put in your own signal to count stall and flush
-    //if(CPU.Hazard_Detection.Stall_o == 1 && CPU.Control.Branch_o == 0)stall = stall + 1;
-    //if(CPU.Flush == 1)flush = flush + 1;  
+    // if(CPU.Hazard_Detection.Stall_o == 1 && CPU.Control.Branch_o == 0)stall = stall + 1;
+    // if(CPU.Flush == 1)flush = flush + 1;  
 
     // print PC
     // DO NOT CHANGE THE OUTPUT FORMAT
