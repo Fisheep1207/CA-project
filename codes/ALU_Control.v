@@ -29,12 +29,12 @@ always@(funct_i, ALUOp_i) begin
         case(funct_i[2:0])
             3'b000:   ALUCtrl_o = 3'b000;
             3'b101:   ALUCtrl_o = 3'b110;
-            3'b010:   ALUCtrl_o = 3'b111;       // load
+            3'b010:   ALUCtrl_o = 3'b000;       // load
         endcase
     end
     else if (ALUOp_i == 2'b10) begin            // S-type
         case(funct_i[2:0])
-            3'b010:   ALUCtrl_o = 3'b111;     
+            3'b010:   ALUCtrl_o = 3'b000;     
         endcase
     end
     // else if (ALUOp_i == 2'b11) begin         // SB-type

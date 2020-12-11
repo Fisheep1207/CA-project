@@ -42,7 +42,7 @@ always@(Op_i) begin
         RegWrite_o  =   1'b1;      //  Write Register
         MemRead_o   =   1'b1;      //  Read Memory
         MemWrite_o  =   1'b0;      
-        MemToReg_o  =   1'b1;      //  Read From Memory
+        MemToReg_o  =   1'b1;
     end
     else if (Op_i == `STORE) begin
         ALUOp_o     =   2'b10;  //  S-type (Store)
@@ -50,6 +50,14 @@ always@(Op_i) begin
         RegWrite_o  =   1'b0;      //  Write Register
         MemRead_o   =   1'b0;
         MemWrite_o  =   1'b1;      //  Write to Memory
+        MemToReg_o  =   1'b0;
+    end
+    else begin
+        ALUOp_o     =   2'b00;  //  S-type (Store)
+        ALUSrc_o    =   1'b0;      //  Mux Choose Immediate
+        RegWrite_o  =   1'b0;      //  Write Register
+        MemRead_o   =   1'b0;
+        MemWrite_o  =   1'b0;      //  Write to Memory
         MemToReg_o  =   1'b0;
     end
     // else if (Op_i == `BRANCH) begin
