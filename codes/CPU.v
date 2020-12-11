@@ -12,7 +12,7 @@ wire ALUSrc, RegWrite, MemToReg, MemWrite, MemRead;
 wire [1:0] ALUOp;
 wire [2:0] ALUControl_To_ALU;
 wire [31:0] Ins, Add_To_PC, PC_To_Ins_Mem, Ins_SignEx_To_MUX, ALUresult,
-            ReadData1_To_ALU, ReadData2_To_MUX, MUX1_To_ALU;
+            ReadData1_To_ALU, ReadData2_To_MUX, MUX1_To_ALU, IF_ID_INS;
 wire [31:0] DataMemory_ReadData, MUX2result;
 
 Data_Memory Data_Memory(
@@ -26,7 +26,7 @@ Data_Memory Data_Memory(
 
 Control Control(
     // Load / STore Operations
-    .Op_i       (Ins[6:0]),
+    .Op_i       (IF_ID_INS[6:0]),
     .MemToReg_o   (MemToReg),
     .MemRead_o  (MemRead),
     .MemWrite_o (MemWrite),
@@ -54,15 +54,15 @@ PC PC(
 Instruction_Memory Instruction_Memory(
     // Load / STore Operations
     .addr_i     (PC_To_Ins_Mem), 
-    .instr_o    (Ins[31:0])
+    .instr_o    (IF_ID_INS[31:0])
 );
 
 Registers Registers(
     // Load / STore Operations
     .clk_i      (clk_i),
-    .RD1addr_i   (Ins[19:15]),
-    .RD2addr_i   (Ins[24:20]),
-    .WRaddr_i   (Ins[11:7]),  // Write register
+    .RD1addr_i   (IF_ID_INS[19:15]),
+    .RD2addr_i   (IF_ID_INS[24:20]),
+    .WRaddr_i   (IF_ID_INS[11:7]),  // Write register
     .WRdata_i   (MUX2result), // Write data
     .RegWrite_i (RegWrite), 
     .RD1data_o   (ReadData1_To_ALU), 
@@ -87,7 +87,7 @@ MUX32 MUX_RegisterSrc(
 
 Sign_Extend Sign_Extend(
     // Load / STore Operations
-    .data_i     (Ins[31:20]),
+    .data_i     (IF_ID_INS[31:20]),
     .data_o     (Ins_SignEx_To_MUX)
 );
 
@@ -100,9 +100,14 @@ ALU ALU(
 );
 
 ALU_Control ALU_Control(
-    .funct_i    ({Ins[31:25], Ins[14:12]}),
+    .funct_i    ({IF_ID_INS[31:25], IF_ID_INS[14:12]}),
     .ALUOp_i    (ALUOp),
     .ALUCtrl_o  (ALUControl_To_ALU)
+);
+
+IF_ID IF_IF(
+    .IF_ID_i(Ins[31:0]),
+    ,IF_ID_o(IF_ID_INS),
 );
 
 endmodule
