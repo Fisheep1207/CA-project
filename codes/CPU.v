@@ -101,7 +101,7 @@ ALU_Control ALU_Control(
 
 IF_ID IF_IF(
     .IF_ID_i(Instruction_Memory.instr_o),
-    ,IF_ID_o(),
+    .IF_ID_o()
 );
 
 ID_EX ID_EX(
@@ -126,7 +126,7 @@ ID_EX ID_EX(
     .ALU_o(),
     .ALU_i({IF_ID.IF_ID_o[31:25], IF_ID.IF_ID_o[14:12]}),
     .INS_11_7_o(),
-    .INS_11_7_i(IF_ID.IF_ID_o[11:7]),
+    .INS_11_7_i(IF_ID.IF_ID_o[11:7])
 );
 
 EX_MEM EX_MEM(
@@ -143,7 +143,7 @@ EX_MEM EX_MEM(
     .Readdata2_o(),
     .Readdata2_i(ID_EX.Readdata2_o),
     .INS_11_7_o(),
-    .INS_11_7_i(ID_EX.INS_11_7_o),
+    .INS_11_7_i(ID_EX.INS_11_7_o)
 );
 
 MEM_WB MEM_WB(
@@ -156,7 +156,7 @@ MEM_WB MEM_WB(
     .Readdata_o(),
     .Readdata_i(Data_Memory.data_o),
     .INS_11_7_o(),
-    .INS_11_7_i(EX_MEM.INS_11_7_o),
+    .INS_11_7_i(EX_MEM.INS_11_7_o)
 );
 
 endmodule
