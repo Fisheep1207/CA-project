@@ -36,7 +36,7 @@ output reg [31:0]   Readdata1_o, Readdata2_o, Imm_o;
 output reg [9:0]    ALU_o;
 output reg [4:0]    INS_11_7_o;
 
-always@(clk_i)  begin
+always@(posedge clk_i)  begin
     RegWrite_o  <= RegWrite_i;
     MemToReg_o  <= MemToReg_i;
     MemRead_o   <= MemRead_i;
