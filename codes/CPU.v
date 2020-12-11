@@ -100,11 +100,13 @@ ALU_Control ALU_Control(
 );
 
 IF_ID IF_ID(
+    .clk_i(clk_i),
     .IF_ID_i(Instruction_Memory.instr_o),
     .IF_ID_o()
 );
 
 ID_EX ID_EX(
+    .clk_i(clk_i),
     .RegWrite_o(),
     .RegWrite_i(Control.RegWrite_o),
     .MemToReg_o(),
@@ -130,6 +132,7 @@ ID_EX ID_EX(
 );
 
 EX_MEM EX_MEM(
+    .clk_i(clk_i),
     .RegWrite_o(),
     .RegWrite_i(ID_EX.RegWrite_o),
     .MemToReg_o(),
@@ -147,6 +150,7 @@ EX_MEM EX_MEM(
 );
 
 MEM_WB MEM_WB(
+    .clk_i(clk_i),
     .RegWrite_o(),
     .RegWrite_i(EX_MEM.RegWrite_o),
     .MemToReg_o(),

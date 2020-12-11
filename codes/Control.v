@@ -1,7 +1,7 @@
 `define I_TYPE 7'b0010011
 `define R_TYPE 7'b0110011
 `define LOAD 7'b0000011
-`define STORE 7'b0010011
+`define STORE 7'b0100011
 `define BRANCH 7'b1100011
 module Control(
     Op_i,       //   (Ins[6:0]),
