@@ -1,4 +1,4 @@
-module EX_MEM
+module MEM_WB
 (   
     RegWrite_o,
     RegWrite_i,
