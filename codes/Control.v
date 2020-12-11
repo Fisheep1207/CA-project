@@ -5,12 +5,15 @@ module Control(
     Op_i,       //   (Ins[6:0]),
     ALUOp_o,    //   (ALUOp[1:0]),
     ALUSrc_o,   //   (ALUSrc),
-    RegWrite_o  //   (Control_to_Reg)
+    RegWrite_o,  //   (Control_to_Reg)
+    MemToReg_o,
+    MemRead_o,
+    MemWrite_o
 );
 input   [6:0]   Op_i;
 output  [1:0]   ALUOp_o;
 output          ALUSrc_o;
-output          RegWrite_o;
+output          RegWrite_o, MemRead_o, MemWrite_o, MemToReg_o;
 reg [1:0] a;
 reg b, c;
 always@(Op_i) begin

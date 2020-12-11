@@ -8,13 +8,21 @@ module CPU
 input               clk_i;
 input               rst_i;
 input               start_i;
-wire ALUSrc, RegWrite;
+wire ALUSrc, RegWrite, MemToReg, MemWrite, MemRead;
 wire [1:0] ALUOp;
 wire [2:0] ALUControl_To_ALU;
 wire [31:0] Ins, Add_To_PC, PC_To_Ins_Mem, Ins_SignEx_To_MUX, ALUresult,
             ReadData1_To_ALU, ReadData2_To_MUX, MUX1_To_ALU;
+wire [31:0] DataMemory_ReadData, MUX2result;
 
-
+Data_Memory Data_Memory(
+    .clk_i (clk_i), 
+    .addr_i (ALUresult), 
+    .MemRead_i (MemRead),
+    .MemWrite_i (MemWrite),
+    .data_i (ReadData2_To_MUX),
+    .data_o (DataMemory_ReadData)
+);
 
 Control Control(
     // Load / STore Operations
@@ -69,11 +77,11 @@ MUX32 MUX_ALUSrc(
     .data_o     (MUX1_To_ALU)
 );
 
-MUX32 MUX_ALUSrc(
+MUX32 MUX_RegisterSrc(
     // Load / STore Operations
     .data1_i    (ALUresult),
     .data2_i    (DataMemory_ReadData),
-    .select_i   (Mem_To_Reg),
+    .select_i   (MemToReg),
     .data_o     (MUX2result)
 );
 
