@@ -24,8 +24,5 @@ always@(Rs1_i, Rs2_i, WB_Rd_i, MEM_Rd_i, WB_RegWrite_i, MEM_RegWrite_i)
         if (MEM_RegWrite_i && MEM_Rd_i != 0 && MEM_Rd_i == Rs2_i) ForwardB_o = 2'b10;
         else if (WB_RegWrite_i && WB_Rd_i != 0 && WB_Rd_i == Rs2_i) ForwardB_o = 2'b01;
         else ForwardB_o = 2'b00;
-
-        
     end
-
 endmodule
