@@ -21,7 +21,7 @@ Data_Memory Data_Memory(
 Control Control(
     // Load / STore Operations
     .Op_i       (IF_ID.IF_ID_o[6:0]),
-    .No_op_i (HDU.No_op_o),
+    .No_op_i (Hazard_Detection.No_op_o),
     .MemToReg_o   (),
     .MemRead_o  (),
     .MemWrite_o (),
@@ -43,7 +43,7 @@ PC PC(
     .clk_i      (clk_i),
     .rst_i      (rst_i),
     .start_i    (start_i),
-    .PCWrite_i  (HDU.PCWrite_o),
+    .PCWrite_i  (Hazard_Detection.PCWrite_o),
     .pc_i       (MUX_PC.data_o),
     .pc_o       ()
 );
@@ -105,7 +105,7 @@ ALU_Control ALU_Control(
 IF_ID IF_ID(
     .clk_i(clk_i),
     .Flush_i(And_Gat.data_o),
-    .Stall_i(HDU.Stall_o),
+    .Stall_i(Hazard_Detection.Stall_o),
     .PC_i(PC.pc_o),
     .IF_ID_i(Instruction_Memory.instr_o),
     .IF_ID_o(),
@@ -215,7 +215,7 @@ And_Gat And_Gat(
     .data_o()
 );
 
-Hazard_Detection_Unit HDU(
+Hazard_Detection_Unit Hazard_Detection(
     .MemRead_i(ID_EX.MemRead_o),
     .INS_11_7_i(ID_EX.INS_11_7_o),
     .RD1addr_i(IF_ID.IF_ID_o[19:15]),
