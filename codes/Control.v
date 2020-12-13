@@ -24,7 +24,7 @@ output  reg        MemWrite_o;
 output  reg        MemToReg_o;
 output  reg        Branch_o;
 
-always@(Op_i) begin
+always@(Op_i, No_op_i) begin
     if (No_op_i == 1) begin
         ALUOp_o     =   2'b00;  
         ALUSrc_o    =   1'b0;
@@ -72,11 +72,7 @@ always@(Op_i) begin
     end
     else if (Op_i == `BRANCH) begin
         ALUOp_o     =   2'b11;  //  SB-type (Beq)
-<<<<<<< HEAD
-        ALUSrc_o    =   1'b0;      //  Mux Choose Register
-=======
         ALUSrc_o    =   1'b0;   //  Mux Choose Register
->>>>>>> f4a70ce27c9b7a029673ec8bebe721604d767ff7
         RegWrite_o  =   1'b0;
         MemRead_o   =   1'b0;
         MemWrite_o  =   1'b0;
