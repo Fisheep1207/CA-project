@@ -18,8 +18,10 @@ output reg [31:0] PC_o;
 output reg [31:0] IF_ID_o;
 
 always@(posedge clk_i)  begin
-  IF_ID_o <= IF_ID_i; 
-  PC_o <= PC_i; 
+  if(!Stall_i) begin
+    IF_ID_o = (Flush_i)? 32'b0: IF_ID_i;
+    PC_o = PC_i;
+  end
 end
 
 endmodule
