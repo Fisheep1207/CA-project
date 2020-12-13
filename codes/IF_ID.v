@@ -14,11 +14,12 @@ input [31:0] IF_ID_i;
 input Stall_i;
 input Flush_i;
 input [31:0] PC_i;
-output [31:0] PC_o;
+output reg [31:0] PC_o;
 output reg [31:0] IF_ID_o;
 
 always@(posedge clk_i)  begin
-  IF_ID_o <= IF_ID_i;  
+  IF_ID_o <= IF_ID_i; 
+  PC_o <= PC_i; 
 end
 
 endmodule

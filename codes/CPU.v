@@ -28,7 +28,7 @@ Control Control(
     .ALUOp_o    (),
     .ALUSrc_o   (),
     .RegWrite_o (),
-    .Branch_o
+    .Branch_o ()
 );
 
 Adder Add_PC(
