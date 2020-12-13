@@ -2,7 +2,11 @@ module IF_ID
 (
     clk_i,
     IF_ID_i,
-    IF_ID_o
+    Flush_i,
+    Stall_i,
+    PC_i,
+    IF_ID_o,
+    PC_o,
 );
 input               clk_i;
 input [31:0] IF_ID_i;

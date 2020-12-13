@@ -21,12 +21,14 @@ Data_Memory Data_Memory(
 Control Control(
     // Load / STore Operations
     .Op_i       (IF_ID.IF_ID_o[6:0]),
+    .No_op_i (HDU.No_op_o),
     .MemToReg_o   (),
     .MemRead_o  (),
     .MemWrite_o (),
     .ALUOp_o    (),
     .ALUSrc_o   (),
-    .RegWrite_o ()
+    .RegWrite_o (),
+    .Branch_o,
 );
 
 Adder Add_PC(
@@ -41,8 +43,8 @@ PC PC(
     .clk_i      (clk_i),
     .rst_i      (rst_i),
     .start_i    (start_i),
-    .PCWrite_i  (1'b1),
-    .pc_i       (Add_PC.data_o),
+    .PCWrite_i  (HDU.PCWrite_o),
+    .pc_i       (MUX_PC.data_o),
     .pc_o       ()
 );
 
@@ -102,8 +104,12 @@ ALU_Control ALU_Control(
 
 IF_ID IF_ID(
     .clk_i(clk_i),
+    .Flush_i(Or_Gat.data_o),
+    .Stall_i(HDU.Stall_o),
+    .PC_i(PC.pc_o),
     .IF_ID_i(Instruction_Memory.instr_o),
-    .IF_ID_o()
+    .IF_ID_o(),
+    .PC_o()
 );
 
 ID_EX ID_EX(
@@ -194,6 +200,46 @@ MUX_4 ForwardB_MUX(
     .input_10_i(EX_MEM.ALUresult_o),
     .input_11_i(0),
     .select_i(Forwarding_Unit.ForwardB_o),
+    .data_o()
+);
+
+Equal Equal(
+    .input1_i(Registers.RD1data_o),
+    .input2_i(Registers.RD2data_o),
+    .data_o()
+);
+
+Or_Gat Or_Gat(
+    .input1_i(Control.Branch_o),
+    .input2_i(Equal.data_o),
+    .data_o()
+);
+
+Hazard_Detection_Unit HDU(
+    .MemRead_i(ID_EX.MemRead_o),
+    .INS_11_7_i(ID_EX.INS_11_7_o),
+    .RD1addr_i(IF_ID.IF_ID_o[19:15]),
+    .RD2addr_i(IF_ID.IF_ID_o[24:20]),
+    .PCWrite_o(),
+    .Stall_o(),
+    .No_op_o()
+);
+
+Shift Shift(
+    .data_i(Sign_Extend.data_o),
+    .data_o()
+);
+
+Adder Hazard_Adder(
+    .data1_in(Shift.data_o),
+    .data2_in(IF_ID.PC_o),
+    .data_o(),
+);
+
+MUX32 MUX_PC(
+    .data1_i(Add_PC.data_o),
+    .data2_i(Hazard_Adder.data_o),
+    .select_i(Or_Gat.data_o),
     .data_o()
 );
 
