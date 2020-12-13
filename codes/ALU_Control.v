@@ -37,10 +37,10 @@ always@(funct_i, ALUOp_i) begin
             3'b010:   ALUCtrl_o = 3'b000;     
         endcase
     end
-    // else if (ALUOp_i == 2'b11) begin         // SB-type
-    //     case(funct_i[2:0])
-    //         3'b000:   ALUCtrl_o = 3'b000;
-    //     endcase
-    // end  
+    else if (ALUOp_i == 2'b11) begin         // SB-type
+        case(funct_i[2:0])
+            3'b000:   ALUCtrl_o = 3'b000;
+        endcase
+    end  
 end
 endmodule 

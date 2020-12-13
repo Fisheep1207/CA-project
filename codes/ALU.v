@@ -20,7 +20,7 @@ always@(data1_i or data2_i or ALUCtrl_i) begin
     3'b100  : data_o = data1_i * data2_i;      // mult
     3'b101  : data_o = data1_i << data2_i;     // shift left
     3'b110  : data_o = data1_i >>> data2_i[4:0];     // shift right arithmetic
-    3'b111  : data_o = data1_i + (data2_i << 1);   
+    3'b111  : data_o = data1_i + data2_i;   
   endcase
 end
 endmodule 
