@@ -104,7 +104,7 @@ ALU_Control ALU_Control(
 
 IF_ID IF_ID(
     .clk_i(clk_i),
-    .Flush_i(Or_Gat.data_o),
+    .Flush_i(And_Gat.data_o),
     .Stall_i(HDU.Stall_o),
     .PC_i(PC.pc_o),
     .IF_ID_i(Instruction_Memory.instr_o),
@@ -209,7 +209,7 @@ Equal Equal(
     .data_o()
 );
 
-Or_Gat Or_Gat(
+And_Gat And_Gat(
     .input1_i(Control.Branch_o),
     .input2_i(Equal.data_o),
     .data_o()
@@ -239,7 +239,7 @@ Adder Hazard_Adder(
 MUX32 MUX_PC(
     .data1_i(Add_PC.data_o),
     .data2_i(Hazard_Adder.data_o),
-    .select_i(Or_Gat.data_o),
+    .select_i(And_Gat.data_o),
     .data_o()
 );
 
