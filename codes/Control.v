@@ -15,12 +15,14 @@ module Control(
     Branch_o,
 );
 input      [6:0]   Op_i;
+input No_op_i;
 output  reg[1:0]   ALUOp_o;
 output  reg        ALUSrc_o;
 output  reg        RegWrite_o; 
 output  reg        MemRead_o;
 output  reg        MemWrite_o;
 output  reg        MemToReg_o;
+output  reg        Branch_o;
 
 always@(Op_i) begin
     if (Op_i == `R_TYPE) begin

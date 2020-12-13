@@ -28,7 +28,7 @@ Control Control(
     .ALUOp_o    (),
     .ALUSrc_o   (),
     .RegWrite_o (),
-    .Branch_o,
+    .Branch_o()
 );
 
 Adder Add_PC(
@@ -233,7 +233,7 @@ Shift Shift(
 Adder Hazard_Adder(
     .data1_in(Shift.data_o),
     .data2_in(IF_ID.PC_o),
-    .data_o(),
+    .data_o()
 );
 
 MUX32 MUX_PC(
