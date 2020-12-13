@@ -72,11 +72,7 @@ always@(Op_i) begin
     end
     else if (Op_i == `BRANCH) begin
         ALUOp_o     =   2'b11;  //  SB-type (Beq)
-<<<<<<< HEAD
-        ALUSrc_o    =   1'b0;      //  Mux Choose Register
-=======
         ALUSrc_o    =   1'b0;   //  Mux Choose Register
->>>>>>> f4a70ce27c9b7a029673ec8bebe721604d767ff7
         RegWrite_o  =   1'b0;
         MemRead_o   =   1'b0;
         MemWrite_o  =   1'b0;
