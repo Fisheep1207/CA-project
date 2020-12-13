@@ -50,9 +50,11 @@ initial begin
     CPU.Control.MemWrite_o = 1'd0;
     CPU.Control.ALUSrc_o = 1'd0;
     CPU.Control.ALUOp_o = 2'd0;
+    CPU.Control.Branch_o = 1'd0;
     
     // IF_ID init
     CPU.IF_ID.IF_ID_o = 32'd0;
+    CPU.IF_ID.PC_o    = 32'd0;
 
     // ID_EX init
     CPU.ID_EX.RegWrite_o = 1'd0;
@@ -66,6 +68,8 @@ initial begin
     CPU.ID_EX.Imm_o = 32'd0;
     CPU.ID_EX.ALU_o = 10'd0;
     CPU.ID_EX.INS_11_7_o = 5'd0;
+    CPU.ID_EX.Rs1_o = 5'd0;
+    CPU.ID_EX.Rs2_o = 5'd0;
     
     // EX_MEM init
     CPU.EX_MEM.RegWrite_o = 1'd0;
@@ -85,7 +89,7 @@ initial begin
 
     // Load instructions into instruction memory
     // Make sure you change back to "instruction.txt" before submission
-    $readmemb("testdata_2020/instruction_1.txt", CPU.Instruction_Memory.memory);
+    $readmemb("testdata_2020/instruction_2.txt", CPU.Instruction_Memory.memory);
         // $readmemb("testdata_2020/n1.txt", CPU.Instruction_Memory.memory);
 
     // Open output file
@@ -108,8 +112,8 @@ always@(posedge Clk) begin
         $finish;
 
     // put in your own signal to count stall and flush
-    // if(CPU.Hazard_Detection.Stall_o == 1 && CPU.Control.Branch_o == 0)stall = stall + 1;
-    // if(CPU.Flush == 1)flush = flush + 1;  
+    if(CPU.Hazard_Detection.Stall_o == 1 && CPU.Control.Branch_o == 0) stall = stall + 1;
+    // if(CPU.Flush == 1) flush = flush + 1;  
 
     // print PC
     // DO NOT CHANGE THE OUTPUT FORMAT
