@@ -66,7 +66,7 @@ Registers Registers(
 
 MUX32 MUX_ALUSrc(
     // Load / STore Operations
-    .data1_i    (ID_EX.Readdata2_o),
+    .data1_i    (ForwardB_MUX.data_o),
     .data2_i    (ID_EX.Imm_o),
     .select_i   (ID_EX.ALUSrc_o),
     .data_o     ()
@@ -87,7 +87,7 @@ Sign_Extend Sign_Extend(
 );
 
 ALU ALU(
-    .data1_i    (ID_EX.Readdata1_o),
+    .data1_i    (ForwardA_MUX.data_o),
     .data2_i    (MUX_ALUSrc.data_o),
     .ALUCtrl_i  (ALU_Control.ALUCtrl_o),
     .data_o     (),
@@ -129,7 +129,11 @@ ID_EX ID_EX(
     .ALU_o(),
     .ALU_i({IF_ID.IF_ID_o[31:25], IF_ID.IF_ID_o[14:12]}),
     .INS_11_7_o(),
-    .INS_11_7_i(IF_ID.IF_ID_o[11:7])
+    .INS_11_7_i(IF_ID.IF_ID_o[11:7]),
+    .Rs1_i(IF_ID.IF_ID_o[19:15]),
+    .Rs1_o(),
+    .Rs2_i(IF_ID.IF_ID_o[24:20]),
+    .Rs2_o(),
 );
 
 EX_MEM EX_MEM(
@@ -145,7 +149,7 @@ EX_MEM EX_MEM(
     .ALUresult_o(),
     .ALUresult_i(ALU.data_o),
     .Readdata2_o(),
-    .Readdata2_i(ID_EX.Readdata2_o),
+    .Readdata2_i(ForwardB_MUX.data_o),
     .INS_11_7_o(),
     .INS_11_7_i(ID_EX.INS_11_7_o)
 );
@@ -162,6 +166,35 @@ MEM_WB MEM_WB(
     .Readdata_i(Data_Memory.data_o),
     .INS_11_7_o(),
     .INS_11_7_i(EX_MEM.INS_11_7_o)
+);
+
+Forwarding_Unit Forwarding_Unit(
+    .Rs1_i(ID_EX.Rs1_o),
+    .Rs2_i(ID_EX.Rs2_o),
+    .WB_Rd_i(MEM_WB.INS_11_7_o),
+    .WB_RegWrite_i(MEM_WB.RegWrite_o),
+    .MEM_Rd_i(EX_MEM.INS_11_7_o),
+    .MEM_RegWrite_i(EX_MEM.RegWrite_o),
+    .ForwardA_o(),
+    .ForwardB_o(),
+);
+
+MUX_4 ForwardA_MUX(
+    .input_00_i(ID_EX.Readdata1_o),
+    .input_01_i(MUX_RegisterSrc.data_o),
+    .input_10_i(EX_MEM.ALUresult_o),
+    .input_11_i(0),
+    .select_i(Forwarding_Unit.ForwardA_o),
+    .data_o(),
+);
+
+MUX_4 ForwardB_MUX(
+    .input_00_i(ID_EX.Readdata2_o),
+    .input_01_i(MUX_RegisterSrc.data_o),
+    .input_10_i(EX_MEM.ALUresult_o),
+    .input_11_i(0),
+    .select_i(Forwarding_Unit.ForwardB_o),
+    .data_o(),
 );
 
 endmodule
