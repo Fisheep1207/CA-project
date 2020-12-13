@@ -21,6 +21,7 @@ output  reg        RegWrite_o;
 output  reg        MemRead_o;
 output  reg        MemWrite_o;
 output  reg        MemToReg_o;
+
 always@(Op_i) begin
     if (Op_i == `R_TYPE) begin
         ALUOp_o     =   2'b00;  //  R type

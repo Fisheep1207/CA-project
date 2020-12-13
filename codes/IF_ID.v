@@ -8,8 +8,9 @@ module IF_ID
     IF_ID_o,
     PC_o,
 );
-input               clk_i;
+input clk_i;
 input [31:0] IF_ID_i;
+input Stall_i;
 output reg [31:0] IF_ID_o;
 
 always@(posedge clk_i)  begin
