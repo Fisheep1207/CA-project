@@ -4,7 +4,7 @@ module Shift(
 );
 
 input [31:0] data_i;
-output reg data_o;
+output reg [31:0] data_o;
 
 always@(data_i) 
     data_o = data_i << 1;
