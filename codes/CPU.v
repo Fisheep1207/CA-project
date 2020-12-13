@@ -133,7 +133,7 @@ ID_EX ID_EX(
     .Rs1_i(IF_ID.IF_ID_o[19:15]),
     .Rs1_o(),
     .Rs2_i(IF_ID.IF_ID_o[24:20]),
-    .Rs2_o(),
+    .Rs2_o()
 );
 
 EX_MEM EX_MEM(
@@ -176,7 +176,7 @@ Forwarding_Unit Forwarding_Unit(
     .MEM_Rd_i(EX_MEM.INS_11_7_o),
     .MEM_RegWrite_i(EX_MEM.RegWrite_o),
     .ForwardA_o(),
-    .ForwardB_o(),
+    .ForwardB_o()
 );
 
 MUX_4 ForwardA_MUX(
@@ -185,7 +185,7 @@ MUX_4 ForwardA_MUX(
     .input_10_i(EX_MEM.ALUresult_o),
     .input_11_i(0),
     .select_i(Forwarding_Unit.ForwardA_o),
-    .data_o(),
+    .data_o()
 );
 
 MUX_4 ForwardB_MUX(
@@ -194,7 +194,7 @@ MUX_4 ForwardB_MUX(
     .input_10_i(EX_MEM.ALUresult_o),
     .input_11_i(0),
     .select_i(Forwarding_Unit.ForwardB_o),
-    .data_o(),
+    .data_o()
 );
 
 endmodule

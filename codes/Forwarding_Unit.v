@@ -1,4 +1,4 @@
-module{
+module Forwarding_Unit(
     Rs1_i,
     Rs2_i,
     WB_Rd_i,
@@ -6,8 +6,8 @@ module{
     MEM_Rd_i,
     MEM_RegWrite_i,
     ForwardA_o,
-    ForwardB_o,
-};
+    ForwardB_o
+);
 
 input [4:0] Rs1_i, Rs2_i, WB_Rd_i, MEM_Rd_i;
 input WB_RegWrite_i, MEM_RegWrite_i;
