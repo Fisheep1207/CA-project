@@ -78,15 +78,15 @@ If (ID/EX.MemRead and((ID/EX.RegisterRd = IF/ID.RegisterRs1) or(ID/EX.RegisterRd
 
 ### 16. ID_EX
 
-實現 pipeline 所需的 Register
+實現 pipeline 所需的 Register，以 clk 作為更新的時間，當 clk 從 0 變 1 時，將當前的值傳到下一個 pipeline register
 
 ### 17. MEM_WB
 
-實現 pipeline 所需的 Register
+實現 pipeline 所需的 Register，以 clk 作為更新的時間，當 clk 從 0 變 1 時，將當前的值傳到下一個 pipeline register
 
 ### 18. EX_MEM
 
-實現 pipeline 所需的 Register
+實現 pipeline 所需的 Register，以 clk 作為更新的時間，當 clk 從 0 變 1 時，將當前的值傳到下一個 pipeline register
 
 
 
