@@ -57,13 +57,13 @@ Instruction_Memory Instruction_Memory(
 Registers Registers(
     // Load / STore Operations
     .clk_i      (clk_i),
-    .RD1addr_i   (IF_ID.IF_ID_o[19:15]),
-    .RD2addr_i   (IF_ID.IF_ID_o[24:20]),
-    .WRaddr_i   (MEM_WB.INS_11_7_o),  // Write register
-    .WRdata_i   (MUX_RegisterSrc.data_o), // Write data
+    .RS1addr_i   (IF_ID.IF_ID_o[19:15]),
+    .RS2addr_i   (IF_ID.IF_ID_o[24:20]),
+    .RDaddr_i   (MEM_WB.INS_11_7_o),  // Write register
+    .RDdata_i   (MUX_RegisterSrc.data_o), // Write data
     .RegWrite_i (MEM_WB.RegWrite_o), 
-    .RD1data_o   (), 
-    .RD2data_o   () 
+    .RS1data_o   (), 
+    .RS2data_o   () 
 );
 
 MUX32 MUX_ALUSrc(
@@ -127,9 +127,9 @@ ID_EX ID_EX(
     .ALUSrc_o(),
     .ALUSrc_i(Control.ALUSrc_o),
     .Readdata1_o(),
-    .Readdata1_i(Registers.RD1data_o),
+    .Readdata1_i(Registers.RS1data_o),
     .Readdata2_o(),
-    .Readdata2_i(Registers.RD2data_o),
+    .Readdata2_i(Registers.RS2data_o),
     .Imm_o(),
     .Imm_i(Sign_Extend.data_o),
     .ALU_o(),
@@ -204,8 +204,8 @@ MUX_4 ForwardB_MUX(
 );
 
 Equal Equal(
-    .input1_i(Registers.RD1data_o),
-    .input2_i(Registers.RD2data_o),
+    .input1_i(Registers.RS1data_o),
+    .input2_i(Registers.RS2data_o),
     .data_o()
 );
 
@@ -218,8 +218,8 @@ And_Gat And_Gat(
 Hazard_Detection_Unit Hazard_Detection(
     .MemRead_i(ID_EX.MemRead_o),
     .INS_11_7_i(ID_EX.INS_11_7_o),
-    .RD1addr_i(IF_ID.IF_ID_o[19:15]),
-    .RD2addr_i(IF_ID.IF_ID_o[24:20]),
+    .RS1addr_i(IF_ID.IF_ID_o[19:15]),
+    .RS2addr_i(IF_ID.IF_ID_o[24:20]),
     .PCWrite_o(),
     .Stall_o(),
     .No_op_o()

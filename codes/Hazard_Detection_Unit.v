@@ -1,8 +1,8 @@
 module Hazard_Detection_Unit(
     MemRead_i,
     INS_11_7_i,
-    RD1addr_i,
-    RD2addr_i,
+    RS1addr_i,
+    RS2addr_i,
     PCWrite_o,
     Stall_o,
     No_op_o
@@ -10,13 +10,13 @@ module Hazard_Detection_Unit(
 
 input  MemRead_i;
 input  [4:0] INS_11_7_i;
-input  [4:0] RD1addr_i, RD2addr_i;
+input  [4:0] RS1addr_i, RS2addr_i;
 output reg PCWrite_o;
 output reg Stall_o;
 output reg No_op_o;
 
-always @(MemRead_i, RD1addr_i, RD2addr_i, INS_11_7_i) begin
-    if(MemRead_i == 1'b1 && ((INS_11_7_i == RD1addr_i) || (INS_11_7_i == RD2addr_i))) begin
+always @(MemRead_i, RS1addr_i, RS2addr_i, INS_11_7_i) begin
+    if(MemRead_i == 1'b1 && ((INS_11_7_i == RS1addr_i) || (INS_11_7_i == RS2addr_i))) begin
         Stall_o = 1'b1;
         No_op_o = 1'b1;
         PCWrite_o = 1'b0;
